@@ -38,6 +38,11 @@ jobs:
     - name: Generate key
       run: php artisan key:generate
 
+    - name: Create DB and schemas
+      run: |
+        touch database/database.sqlite
+        php artisan migrate:fresh --seed
+
     - name: Build site
       run: npm run dev
 
