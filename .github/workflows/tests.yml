@@ -21,6 +21,9 @@ jobs:
       with:
         node-version: '12.x'
 
+    - name: Create database
+      run: touch database/database.sqlite
+
     - name: Install Dependencies (PHP vendors)
       run: composer install && npm ci
 
@@ -28,9 +31,7 @@ jobs:
       run: php artisan key:generate
 
     - name: Create DB and schemas
-      run: |
-        touch database/database.sqlite
-        php artisan migrate:fresh --seed
+      run: php artisan migrate:fresh --seed
 
     - name: Build site
       run: npm run dev
