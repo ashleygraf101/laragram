@@ -25,7 +25,7 @@ jobs:
       run: touch database/database.sqlite
 
     - name: Install Dependencies (PHP vendors)
-      run: composer install && npm ci
+      run: composer install
 
     - name: Generate key
       run: php artisan key:generate
@@ -42,7 +42,6 @@ jobs:
     - name: Cypress run
       uses: cypress-io/github-action@v1
       with:
-        install: false
         start: npm start
         wait-on: http://localhost:8000
         config-file: cypress.json
