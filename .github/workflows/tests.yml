@@ -22,7 +22,7 @@ jobs:
         node-version: '12.x'
 
     - name: Install Dependencies (PHP vendors)
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist && npm ci
+      run: composer install && npm ci
 
     - name: Generate key
       run: php artisan key:generate
