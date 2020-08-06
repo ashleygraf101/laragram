@@ -16,26 +16,21 @@ jobs:
     - name: Copy ENV Laravel Configuration for CI
       run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
 
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-
-    - name: Create DB
-      run: touch database/database.sqlite
-
     - name: Install Dependencies (PHP vendors)
-      run: composer install
+      run: composer install & npm ci
 
     - name: Generate key
       run: php artisan key:generate
 
-    - name: Create schemas
-      run: php artisan migrate:fresh --seed
+    - name: Create DB and schemas
+      run: |
+        touch database/database.sqlite
+        php artisan migrate:fresh --seed
 
     - name: Cypress run
       uses: cypress-io/github-action@v1
       with:
+        install: false
         start: npm start
         wait-on: http://localhost:8000
         config-file: cypress.json
