@@ -33,12 +33,6 @@ jobs:
     - name: Create schemas
       run: php artisan migrate:fresh --seed
 
-    - name: Build site
-      run: npm run dev
-
-    - name: Execute unit tests via PHPUnit
-      run: vendor/bin/phpunit
-
     - name: Cypress run
       uses: cypress-io/github-action@v1
       with:
@@ -48,3 +42,6 @@ jobs:
         spec: cypress/integration/laragram/laragram.spec.js
       env:
         CYPRESS_baseUrl: http://localhost:8000
+
+    - name: Execute unit tests via PHPUnit
+      run: vendor/bin/phpunit
