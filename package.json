@@ -12,8 +12,8 @@
         "test": "phpunit",
         "start": "php artisan serve",
         "cypress:run": "npx cypress run",
-        "server:test": "start-server-and-test start 8000 test:axe",
-        "test:ci": "npx cypress run --project cypress/integration/laragram/laragram.spec.js --env CYPRESS_BASE_URL=http://l27.0.0.1:8000",
+        "server:test": "start-server-and-test start 8000 test:ci",
+        "test:ci": "npx cypress run --spec cypress/integration/laragram/laragram.spec.js --env CYPRESS_BASE_URL=http://l27.0.0.1:8000",
         "test:chrome": "npx cypress run --spec cypress/integration/laragram/laragram.spec.js --browser chrome",
         "test:axe": "npx cypress run --spec cypress/integration/laragram/laragram-accessibility.spec.js --env CYPRESS_BASE_URL=http://l27.0.0.1:8000",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
