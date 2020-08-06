@@ -6,17 +6,6 @@ jobs:
   build-and-run-tests:
     runs-on: ubuntu-16.04
 
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: forge
-          MYSQL_DATABASE: forge
-          DB_HOST: localhost
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
     steps:
     - name: Checkout
       uses: actions/checkout@v1
@@ -37,6 +26,11 @@ jobs:
 
     - name: Generate key
       run: php artisan key:generate
+
+    - name: Create DB and schemas
+      run: |
+        touch database/database.sqlite
+        php artisan migrate:fresh --seed
 
     - name: Build site
       run: npm run dev
