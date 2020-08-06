@@ -27,6 +27,9 @@ jobs:
         touch database/database.sqlite
         php artisan migrate:fresh --seed
 
+    - name: Build site 
+      run: npm run prod
+
     - name: Cypress run
       uses: cypress-io/github-action@v1
       with:
