@@ -22,8 +22,10 @@ cd laragram
 touch .env
 composer install && npm install
 php artisan key:generate
-create user forge & database forge in mysql
+	CREATE DATABASE forge;
+	GRANT ALL on forge.* to forge@localhost;
 php artisan migrate --seed
+php artisan storage:link
 npm run dev
 ```
 

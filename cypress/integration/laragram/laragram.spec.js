@@ -1,35 +1,56 @@
 const yourFixturePath = 'croc.jpg';
 
-beforeEach(() => {
-  cy.visit('/login')
-  cy.contains('Laragram')
-  cy.get('#email')
-    .type('demo@gmail.com')
-    .should('have.value', 'demo@gmail.com')
-  cy.get('#password')
-    .type('123456')
-    .should('have.value', '123456')
-  cy.contains('Log In')
-    .click()
-})
+describe('sanity check', () => {
+  it('the title should match', () => {
+    cy.visit('/');
 
-describe('Home Page', () => {
-  it('Visits the login page and logs in', () => {
-      cy.contains('Laravel')
+    cy.title().should('include', 'Laragram');
+  });
+});
+
+describe('Authorised user', () => {
+
+  //login with the UI the first time
+  it('Logs in users', () => {
+      cy.visit('/login')
+
+      cy.get('#email').type('demo@gmail.com')
+      cy.get('#password').type('123456')
+      cy.contains('Log In').click()
+      cy.visit('/')
   })
-})
 
-// describe('Feed Page', () => {
-//   it('Add photo to feed', () => {
-//     cy.contains('Laravel')
-//     cy.get('input[type="file"]').invoke('show')
-//       .click({force: true})
-//       .attachFile(yourFixturePath)
-//       .click({force: true})
-//     cy.contains('Next').click()
-//     cy.get('.description-container')
-//       .type('hello, it is me')
-//     cy.contains('Share').click()
-//   })
-// })
+  //login with the UI the first time
+  it('Logs in and logs out', () => {
+      cy.visit('/login')
+      cy.get('#email').type('demo@gmail.com')
+      cy.get('#password').type('123456')
+      cy.contains('Log In').click()
+      cy.visit('/')
+      cy.location('pathname').should('eq', '/')
+      cy.contains('Demo').click()
+      cy.contains('Logout').click()
+      cy.contains('Laragram')
+  })
+
+  //login with the DB after that
+  it('Add photo to feed', () => {
+    cy.visit('/login')
+
+      cy.get('#email').type('demo@gmail.com')
+      cy.get('#password').type('123456')
+      cy.contains('Log In').click()
+      cy.visit('/')
+      cy.location('pathname').should('eq', '/')
+      cy.get('input[type="file"]').invoke('show')
+        .click({force: true})
+        .attachFile(yourFixturePath)
+        .click({force: true})
+      cy.contains('Next').click()
+      cy.get('.description-container')
+        .type("hello, is it me you're looking for?")
+      cy.contains('Share').click()
+      cy.visit('/')
+  });
+});
 
