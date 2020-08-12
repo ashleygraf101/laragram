@@ -67,3 +67,18 @@ jobs:
         wait-on: http://localhost:8000
         config-file: cypress.json
         spec: cypress/integration/laragram/laragram.spec.js
+
+
+    - uses: actions/upload-artifact@master
+      # there might be no screenshots created when:
+      # - there are no test failures
+      # so only upload screenshots if previous step has failed
+      if: failure()
+      with:
+        name: screenshots
+        path: cypress/screenshots
+    # video should always be generated
+    - uses: actions/upload-artifact@master
+      with:
+        name: videos
+        path: cypress/videos
