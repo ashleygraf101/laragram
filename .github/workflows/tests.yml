@@ -15,7 +15,11 @@ jobs:
           DB_HOST: 127.0.0.1
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: >-
+          --health-cmd="mysqladmin ping" 
+          --health-interval=10s 
+          --health-timeout=5s 
+          --health-retries=3
 
     steps:
     - name: Checkout
@@ -42,15 +46,24 @@ jobs:
       run: npm run dev
 
     - name: Execute unit tests via PHPUnit
-      run: vendor/bin/phpunit
+      run: 
+        vendor/bin/phpunit
+
+    - name: Migrate MySQL DB
+      env: 
+        DB_CONNECTION: mysql
+        DB_DATABASE: forge
+        DB_PORT: 3306
+        DB_USER: root
+        DB_PASSWORD: forge
+      run: php artisan migrate
 
     - name: Cypress run
       uses: cypress-io/github-action@v1
+
       with:
         install: false
         start: npm start
         wait-on: http://localhost:8000
         config-file: cypress.json
         spec: cypress/integration/laragram/laragram.spec.js
-      env:
-        CYPRESS_baseUrl: http://localhost:8000
