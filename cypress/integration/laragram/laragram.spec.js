@@ -4,36 +4,25 @@ describe('sanity check', () => {
   it('the title should match', () => {
     cy.visit('/');
 
-    cy.title().should('include', 'Laragram');
+    cy.contains('Laragram');
   });
 });
 
 describe('Authorised user', () => {
 
-  //login with the UI the first time
-  it('Logs in users', () => {
-      cy.visit('/login')
-
-      cy.get('#email').type('demo@gmail.com')
-      cy.get('#password').type('123456')
-      cy.contains('Log In').click()
-      cy.visit('/')
-  })
-
-  //login with the UI the first time
+  //log in and log out
   it('Logs in and logs out', () => {
       cy.visit('/login')
       cy.get('#email').type('demo@gmail.com')
       cy.get('#password').type('123456')
       cy.contains('Log In').click()
       cy.visit('/')
-      cy.location('pathname').should('eq', '/')
       cy.contains('Demo').click()
       cy.contains('Logout').click()
       cy.contains('Laragram')
   })
 
-  //login with the DB after that
+  //log in, add file to feed, and log out
   it('Add photo to feed', () => {
     cy.visit('/login')
 
@@ -41,7 +30,6 @@ describe('Authorised user', () => {
       cy.get('#password').type('123456')
       cy.contains('Log In').click()
       cy.visit('/')
-      cy.location('pathname').should('eq', '/')
       cy.get('input[type="file"]').invoke('show')
         .click({force: true})
         .attachFile(yourFixturePath)
@@ -51,6 +39,9 @@ describe('Authorised user', () => {
         .type("hello, is it me you're looking for?")
       cy.contains('Share').click()
       cy.visit('/')
+      cy.contains('Demo').click()
+      cy.contains('Logout').click()
+      cy.contains('Laragram')
   });
 });
 
