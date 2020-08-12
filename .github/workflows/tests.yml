@@ -12,7 +12,7 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: forge
           MYSQL_DATABASE: forge
-          DB_HOST: localhost
+          DB_HOST: 127.0.0.1
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -38,9 +38,6 @@ jobs:
     - name: Generate key
       run: php artisan key:generate
 
-    - name: Create DB and schemas
-      run: php artisan migrate:fresh --seed
-      
     - name: Build site
       run: npm run dev
 
