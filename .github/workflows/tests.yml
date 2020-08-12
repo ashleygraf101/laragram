@@ -62,12 +62,12 @@ jobs:
       uses: cypress-io/github-action@v1
 
       with:
+        browser: chrome
         install: false
         start: npm start
         wait-on: http://localhost:8000
         config-file: cypress.json
         spec: cypress/integration/laragram/laragram.spec.js
-
 
     - uses: actions/upload-artifact@master
       # there might be no screenshots created when:
