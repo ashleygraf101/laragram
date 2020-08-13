@@ -56,7 +56,7 @@ jobs:
         DB_PORT: 3306
         DB_USER: root
         DB_PASSWORD: forge
-      run: php artisan migrate
+      run: php artisan migrate:fresh --seed
 
     - name: Cypress run
       uses: cypress-io/github-action@v1
