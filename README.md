@@ -24,6 +24,7 @@ composer install && npm install
 php artisan key:generate
 create user forge & database forge in mysql
 php artisan migrate --seed
+php artisan storage:link
 npm run dev
 ```
 
@@ -46,4 +47,4 @@ phpunit
 
 ### Todo
 
-Cleanup test changes to DB in beforeEach
+(See open pull request)
