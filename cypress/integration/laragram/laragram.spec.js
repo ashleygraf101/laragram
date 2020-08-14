@@ -28,7 +28,7 @@ describe('Authorised user', () => {
 
   //log in and log out
   it('Logs in and logs out', () => {
-     cy.contains('Laragram')
+     cy.contains('Laravel')
   })
 
   //log in, add file to feed, and log out
