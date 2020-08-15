@@ -1,6 +1,6 @@
 const yourFixturePath = 'croc.jpg';
 
-describe('sanity check', () => {
+describe('initial check', () => {
   it('the title should match', () => {
     cy.visit('/');
 
@@ -8,13 +8,13 @@ describe('sanity check', () => {
   });
 });
 
-describe('Authorised user', () => {
+describe('Authorised user journeys', () => {
 
   // runs before each test in the block
   beforeEach(() => {
     cy.visit('/login')
-    cy.get('#email').type('demo@gmail.com')
-    cy.get('#password').type('123456')
+    cy.get('#email').type(Cypress.env('email'))
+    cy.get('#password').type(Cypress.env('password'))
     cy.contains('Log In').click()
     cy.visit('/')
   })
