@@ -4,6 +4,10 @@
 ![alt text](docs/laragram2.jpg)
 
 
+## About my use of this project
+
+<a href="https://dev.to/ashleygraf101/learning-by-breaking-things-39ep">CI with Laravel/MySQL/Cypress using Github Actions: Learning by breaking things on purpose</a>
+
 ## Installation
 
 ### Prerequisites
