@@ -1,3 +1,5 @@
+![CI](https://github.com/ashleygraf101/laragram-fork/workflows/CI/badge.svg)
+
 ## Laragram
 
 ![alt text](docs/laragram1.jpg)
