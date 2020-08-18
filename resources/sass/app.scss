@@ -70,6 +70,15 @@ footer{
     z-index:800;
 }
 
+.loading{
+    position: fixed;
+    left: 0;
+    top: 0;    
+    height: 100vh;
+    background: #fafafa;
+    z-index: 9999;   
+}
+
 .loading i{
     font-size: 3rem;
 }
@@ -170,7 +179,7 @@ footer{
     }
 
     input:focus ~ label, input:not(:placeholder-shown) ~ label {       
-          top: -10px;
+       top: -10px;
        font-size: 10px;
     }
 }
@@ -203,4 +212,22 @@ footer{
         border-bottom-left-radius: 12px;
         border-bottom-right-radius: 12px;
     }
+}
+
+.new-post, .edit-post{
+
+    .btn{
+        color: #3490dc;
+    }
+
+    .btn:hover{
+        color: #1d68a7;
+        text-decoration: underline;    
+    }
+
+    .btn:focus, .btn.focus {
+        outline: none;
+        box-shadow: none;
+    }
+
 }

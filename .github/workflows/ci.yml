@@ -42,13 +42,6 @@ jobs:
     - name: Generate key
       run: php artisan key:generate
 
-    - name: Build site
-      run: npm run dev
-
-    - name: Execute unit tests via PHPUnit
-      run: 
-        vendor/bin/phpunit
-
     - name: Migrate MySQL DB
       env: 
         DB_CONNECTION: mysql
@@ -57,6 +50,13 @@ jobs:
         DB_USER: root
         DB_PASSWORD: forge
       run: php artisan migrate:fresh --seed
+
+    - name: Build site
+      run: npm run dev
+
+    - name: Execute unit tests via PHPUnit
+      run: 
+        vendor/bin/phpunit
 
     - name: Cypress run
       uses: cypress-io/github-action@v1
