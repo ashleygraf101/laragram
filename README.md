@@ -8,7 +8,14 @@
 
 ## About my use of this project
 
-<a href="https://dev.to/ashleygraf101/learning-by-breaking-things-39ep">CI with Laravel/MySQL/Cypress using Github Actions: Learning by breaking things on purpose</a>
+<a href="https://dev.to/ashleygraf101/learning-by-breaking-things-39ep">CI with Laravel/MySQL/Cypress using Github Actions</a>
+
+Principles
+- Fast-running tests (linter & unit) at the start
+- Slow tests (e2e) at the end
+- Test environment echoes production environment
+- Don't change major elements of the production environment
+- (Try things. See what breaks it)
 
 ## Installation
 
