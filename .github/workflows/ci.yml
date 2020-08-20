@@ -53,6 +53,15 @@ jobs:
         DB_PASSWORD: forge
         DB_PORT: ${{ job.services.mysql.ports[3306] }}
 
+    - name: Migrate MySQL DB
+      env: 
+        DB_CONNECTION: mysql
+        DB_DATABASE: forge
+        DB_PORT: 3306
+        DB_USER: root
+        DB_PASSWORD: forge
+      run: php artisan migrate:fresh --seed
+
     - name: Cypress run
       uses: cypress-io/github-action@v1
       with:
@@ -62,15 +71,6 @@ jobs:
         wait-on: http://localhost:8000
         config-file: cypress.json
         spec: cypress/integration/laragram/laragram.spec.js
-
-    - name: Migrate MySQL DB
-      env: 
-        DB_CONNECTION: mysql
-        DB_DATABASE: forge
-        DB_PORT: 3306
-        DB_USER: root
-        DB_PASSWORD: forge
-      run: php artisan migrate:fresh --seed
 
     - uses: actions/upload-artifact@master
       # there might be no screenshots created when:
