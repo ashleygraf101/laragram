@@ -12,7 +12,7 @@ describe('Authorised user journeys', () => {
 
   // runs before each test in the block
   beforeEach(() => {
-    cy.visit('/')
+    cy.visit('/login')
     cy.get('#email').type(Cypress.env('email'))
     cy.get('#password').type(Cypress.env('password'))
     cy.contains('Log In').click()
