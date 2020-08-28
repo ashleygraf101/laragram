@@ -31,18 +31,24 @@ describe('Authorised user journeys', () => {
     cy.location('pathname').should('eq', '/')
   })
 
-  //log in, add file to feed, and log out
-  it('Add photo to feed', () => {
+  //like a picture
+  it('Like a picture', () => {
     cy.location('pathname').should('eq', '/')
-    cy.get('input[type="file"]').invoke('show')
-      .click({force: true})
-      .attachFile(yourFixturePath)
-      .click({force: true})
-    cy.contains('Next').click()
-    cy.get('.description-container')
-      .type("hello, is it me you're looking for?")
-    cy.contains('Share').click()
-    cy.visit('/')
-  });
+    cy.get('.details').find(".fa-heart", {force: true}).first().click()
+  })
+
+  //log in, add file to feed, and log out
+  // it('Add photo to feed', () => {
+  //   cy.location('pathname').should('eq', '/')
+  //   cy.get('input[type="file"]').invoke('show')
+  //     .click({force: true})
+  //     .attachFile(yourFixturePath)
+  //     .click({force: true})
+  //   cy.contains('Next').click()
+  //   cy.get('.description-container')
+  //     .type("hello, is it me you're looking for?")
+  //   cy.contains('Share').click()
+  //   cy.visit('/')
+  // });
 });
 
