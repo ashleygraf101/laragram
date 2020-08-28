@@ -1,5 +1,9 @@
 {
   "baseUrl": "http://127.0.0.1:8000",
   "projectId": "laragram",
-  "video": true
+  "video": true,
+  "env": {
+    "email": "demo@gmail.com",
+    "password": "123456"
+  }
 }

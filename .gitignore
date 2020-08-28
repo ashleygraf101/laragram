@@ -6,6 +6,8 @@
 /public/css/app.css
 /public/js/app.js
 .env
+/cypress/videos/*
+/cypress/screenshots/*
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml

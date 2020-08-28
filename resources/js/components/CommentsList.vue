@@ -2,15 +2,11 @@
 	<div class="comments">
 		<div class="container">           
             <div class="row justify-content-center">
-                <div class="col-lg-8 mt-3">
+                <div class="col-lg-8 mt-3">                	
 
-                	<div v-if="loading" class="loading text-center">
-                		<i class="fas fa-circle-notch fa-spin"></i>
-                	</div> 
+                	<div class="d-flex flex-column vh-100">
 
-                	<div v-else class="d-flex flex-column vh-100">
-
-						<div class="header d-flex align-items-center border-bottom">
+						<div class="header d-flex align-items-center">
 							<a class="mr-4 return" href="#" @click.prevent="$router.push('/')">
 								<i class="fas fa-arrow-left"></i>
 							</a>
@@ -18,7 +14,10 @@
 						</div>		
 
 						 <div class="post flex-grow-1">
-							<div class="box">
+						<comments-add-new :path="post.path" :id="post.id"></comments-add-new>		
+
+						 <div class="post flex-grow-1 pt-2 mb-3">
+							<div class="box w-100">
 
 								 <div class="user d-flex mb-2">
 						            <div class="mb-2 ml-2 mr-2 mt-1 avatar">     
@@ -43,20 +42,14 @@
 						        </div>
 
 
-						        <div v-for="comment in comments" >			
 									<comments-item :comment ="comment" :key="comment.id">
 										
 									</comments-item>			
-								</div>
 
-							</div>	
-				        </div>
-
-
-						<comments-add-new :path="post.path" @addComment="add"></comments-add-new>
-
+								</div>	
+				       		</div>
+						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
@@ -65,6 +58,8 @@
 
 <script>
 
+	import { mapGetters } from "vuex";
+	import store from "../store";
 	import CommentsAddNew from './CommentsAddNew';
 	import CommentsItem from './CommentsItem';
 	import moment from 'moment';
@@ -72,48 +67,26 @@
 	export default {	
 		name: 'CommentsList',
 
-		computed: {
+		beforeRouteEnter(to, from, next) {
+			Promise.all([
+			      store.dispatch('fetchPost', to.params.id),
+			      store.dispatch('fetchComments', to.params.id)
+			    ]).then(() => {
+			      next();			      
+			    });
+		},
+
+		computed: {			
 
 			ago(){
                 return moment(this.post.created_at).fromNow();
-        	}
+        	},
 
-		},		
+        	...mapGetters(["post", "comments"])
 
-		data(){
-			return {
-				comments: [],
-				post: {},
-				loading: true
-			}
-		},
+		},							
 
-		created(){			
-			 
-			 this.getComments();	
-			
-		},	
-
-		components: { CommentsAddNew, CommentsItem },		
-
-		methods:{
-
-			add(comment){
-				this.comments.unshift(comment);				
-			},
-			
-			getComments(){
-
-				axios.get('/posts/'+this.$route.params.id+'/comments/all')
-					 .then(({data}) => {
-					 	this.post = data.post;
-					 	this.comments = data.comments;					 	
-					 	this.loading = false;
-					 });
-
-			}			
-
-		}
+		components: { CommentsAddNew, CommentsItem }		
 
 		
 	}

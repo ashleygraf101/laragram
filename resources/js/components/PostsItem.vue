@@ -7,13 +7,13 @@
                     <div class="d-flex align-items-center">
                         <div class="m-2 avatar">     
                             <img 
-                            	   :src="avatarPath"
+                            	   :src="post.user.avatar_path"
                             	   class="img-fluid rounded-circle" 
                                 />                                                
                         </div>
                         
                         <div class="username">
-                            {{ userName }}
+                            {{ post.user.name }}
                         </div>
                     </div>                    
                     
@@ -22,8 +22,8 @@
 
                 <div class="image">
 
-                    <figure :class="filter">
-                        <img :src="imagePath" class="img-fluid" />
+                    <figure :class="post.filter">
+                        <img :src="post.image_path" class="img-fluid" />
                     </figure>                    
 
                 </div>       
@@ -32,25 +32,25 @@
                     <div class="info">
                     
                         <div class="social">                
-                            <i class="fas fa-heart" :class="liked ? 'liked' : ''" @click="toggle"></i>
+                            <i class="fas fa-heart" :class="post.liked ? 'liked' : ''" @click="toggle"></i>
 
                             <i class="far fa-comment" @click.prevent="showAllcomments"></i>
 
                         </div>
 
                         <div class="likes">
-                            <span v-text="likesCount"></span> likes
+                            <span v-text="post.likesCount"></span> likes
                         </div>                        
                         
                         <div class="description">
                             <p>
-                                <span class="username pr-1">{{ userName }}</span>
+                                <span class="username pr-1">{{ post.user.name }}</span>
                                 <span v-if="readMoreButton">
                                     {{ descriptionSummary }}...
                                     <a href="#" @click.prevent="readMore">more</a>
                                 </span>
                                 <span v-else>
-                                    {{ description }}
+                                    {{ post.description }}
                                 </span>                                
                             </p>
                         </div>    
@@ -58,7 +58,13 @@
                     </div>
 
                     <div>
-                        <a class="all_comments_link" v-if="commentsCount" @click.prevent="showAllcomments" href="#">See {{ commentsCount }} comments</a>
+                        <a class="all_comments_link" 
+                            v-if="post.commentsCount" 
+                            @click.prevent="showAllcomments" 
+                            href="#"
+                        >
+                            See {{ post.commentsCount }} comments
+                        </a>
                     </div>
                     
 
@@ -74,6 +80,7 @@
 <script>
 
     import moment from 'moment';
+    import { LIKE_ADD, LIKE_REMOVE } from "../store/actions.type";
 
 	export default{
         name: 'PostsItem',        
@@ -86,18 +93,8 @@
 
         data(){
             return {
-                id:this.post.id,
-                avatarPath: this.post.user.avatar_path,
-                userName:this.post.user.name,
-                imagePath:this.post.image_path,                
-                description: this.post.description,
-                filter:this.post.filter,
-                liked: this.post.liked,
-                likesCount : this.post.likesCount,
                 readMoreButton : false,
-                descriptionSummary: '',
-                commentsCount: this.post.commentsCount,
-                path: this.post.path                               
+                descriptionSummary: ''
             };
         },
 
@@ -109,9 +106,13 @@
 
         },     
 
-        created(){
+        created(){  
 
-            if (this.description.length > 120){
+            if(this.post.description === null) {                           
+                return false;
+            }
+
+            if (this.post.description.length > 120){
                 this.descriptionSummary = this.post.description.substring(0,120);
                 this.readMoreButton = true;
             }
@@ -120,21 +121,15 @@
 
         methods:{
             toggle(){
-                this.liked ? this.dislike() : this.like();                
+                this.post.liked ? this.dislike() : this.like();                
             },
 
             like(){
-
-                axios.post(`${this.path}/likes`);
-                this.liked = true;
-                this.likesCount++;
-
+                this.$store.dispatch(LIKE_ADD, this.post.path);
             },
 
             dislike(){
-                axios.post(`${this.path}/dislike`);
-                this.liked = false;
-                this.likesCount--;                
+                this.$store.dispatch(LIKE_REMOVE, this.post.path);                                
             },
 
             moreOptions(){
@@ -148,7 +143,7 @@
             showAllcomments(){
                 this.$router.push({
                     name:'comments.index', 
-                    params: { id: this.id }
+                    params: { id: this.post.id }
                 });
             }
         }

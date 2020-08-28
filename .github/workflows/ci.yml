@@ -1,4 +1,4 @@
-name: Laragram tests
+name: CI
 on:
   pull_request:
     branches: [master, development]
@@ -12,10 +12,14 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: forge
           MYSQL_DATABASE: forge
-          DB_HOST: localhost
+          DB_HOST: 127.0.0.1
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: >-
+          --health-cmd="mysqladmin ping" 
+          --health-interval=10s 
+          --health-timeout=5s 
+          --health-retries=3
 
     steps:
     - name: Checkout
@@ -38,24 +42,46 @@ jobs:
     - name: Generate key
       run: php artisan key:generate
 
-    - name: Create DB and schemas
-      run: |
-        touch database/database.sqlite
-        php artisan migrate:fresh --seed
-
     - name: Build site
       run: npm run dev
 
     - name: Execute unit tests via PHPUnit
       run: vendor/bin/phpunit
+      env: 
+        MYSQL_DATABASE: forge
+        DB_USERNAME: root
+        DB_PASSWORD: forge
+        DB_PORT: ${{ job.services.mysql.ports[3306] }}
+
+    - name: Migrate MySQL DB
+      env: 
+        DB_CONNECTION: mysql
+        DB_DATABASE: forge
+        DB_PORT: 3306
+        DB_USER: root
+        DB_PASSWORD: forge
+      run: php artisan migrate:fresh --seed
 
     - name: Cypress run
       uses: cypress-io/github-action@v1
       with:
+        browser: chrome
         install: false
         start: npm start
         wait-on: http://localhost:8000
         config-file: cypress.json
         spec: cypress/integration/laragram/laragram.spec.js
-      env:
-        CYPRESS_baseUrl: http://localhost:8000
+
+    - uses: actions/upload-artifact@master
+      # there might be no screenshots created when:
+      # - there are no test failures
+      # so only upload screenshots if previous step has failed
+      if: failure()
+      with:
+        name: screenshots
+        path: cypress/screenshots
+    # video should always be generated
+    - uses: actions/upload-artifact@master
+      with:
+        name: videos
+        path: cypress/videos

@@ -16,3 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+if (App::environment('production')) {
+    Route::get('/_testing/login', function () {
+        Auth::login(factory(\App\User::class)->create());
+    });
+}
