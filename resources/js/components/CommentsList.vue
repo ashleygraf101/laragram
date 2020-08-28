@@ -6,7 +6,7 @@
 
                 	<div class="d-flex flex-column vh-100">
 
-						<div class="header d-flex align-items-center border-bottom">
+						<div class="header d-flex align-items-center">
 							<a class="mr-4 return" href="#" @click.prevent="$router.push('/')">
 								<i class="fas fa-arrow-left"></i>
 							</a>
@@ -14,7 +14,10 @@
 						</div>		
 
 						 <div class="post flex-grow-1">
-							<div class="box">
+						<comments-add-new :path="post.path" :id="post.id"></comments-add-new>		
+
+						 <div class="post flex-grow-1 pt-2 mb-3">
+							<div class="box w-100">
 
 								 <div class="user d-flex mb-2">
 						            <div class="mb-2 ml-2 mr-2 mt-1 avatar">     
@@ -39,20 +42,14 @@
 						        </div>
 
 
-						        <div v-for="comment in comments" >			
 									<comments-item :comment ="comment" :key="comment.id">
 										
 									</comments-item>			
-								</div>
 
-							</div>	
-				        </div>
-
-
-						<comments-add-new :path="post.path" :id="post.id"></comments-add-new>
-
+								</div>	
+				       		</div>
+						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
