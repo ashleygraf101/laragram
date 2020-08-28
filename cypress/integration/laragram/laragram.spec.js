@@ -38,17 +38,17 @@ describe('Authorised user journeys', () => {
   })
 
   //log in, add file to feed, and log out
-  // it('Add photo to feed', () => {
-  //   cy.location('pathname').should('eq', '/')
-  //   cy.get('input[type="file"]').invoke('show')
-  //     .click({force: true})
-  //     .attachFile(yourFixturePath)
-  //     .click({force: true})
-  //   cy.contains('Next').click()
-  //   cy.get('.description-container')
-  //     .type("hello, is it me you're looking for?")
-  //   cy.contains('Share').click()
-  //   cy.visit('/')
-  // });
+  it('Add photo to feed', () => {
+    cy.location('pathname').should('eq', '/')
+    cy.get('input[type="file"]').invoke('show')
+      .click({force: true})
+      .attachFile(yourFixturePath)
+      .click({force: true})
+    cy.contains('Next').click()
+    cy.get('.description-container')
+      .type("hello, is it me you're looking for?")
+    cy.contains('Share').click()
+    cy.visit('/')
+  });
 });
 
