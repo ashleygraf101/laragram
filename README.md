@@ -16,7 +16,6 @@ Principles
 - Test environment echoes production environment
 - Don't change major elements of the production environment
 - (Try things. See what breaks it)
-
 ## Installation
 
 ### Prerequisites
@@ -54,8 +53,6 @@ Next, boot up a server and visit your laragram app.
 ### Running tests
 
 ```
-php artisan config:cache
-php artisan config:clear
 phpunit
 ```
 
