@@ -54,6 +54,7 @@ Next, boot up a server and visit your laragram app.
 
 ```
 phpunit
+npm run server:test
 ```
 
 ### Todo
